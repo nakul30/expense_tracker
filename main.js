@@ -1,32 +1,3 @@
-// import express from "express";
-// import {
-//   CopilotRuntime,
-//   copilotRuntimeNodeHttpEndpoint,
-//   GroqAdapter,
-// } from "@copilotkit/runtime";
-// import dotenv from "dotenv";
-// import { Groq } from "groq-sdk";
-// const app = express();
-// dotenv.config();
-
-// const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
-
-// app.use("/copilotkit", (req, res, next) => {
-//   const serviceAdapter = new GroqAdapter({ groq, model: "" });
-//   const copilotkit = new CopilotRuntime();
-//   const handler = copilotRuntimeNodeHTTEndpoint({
-//     endpoint: "/copilotkit",
-//     copilotkit,
-//     serviceAdapter,
-//   });
-
-//   return handler(req, res, next);
-// }); 
-
-// app.listen(4000, () => {
-//   console.log("Listening at http://localhost:4000/copilotkit");
-// });
-
 import express from "express";
 import cors from "cors"; // Import cors
 import { CopilotRuntime, GroqAdapter, copilotRuntimeNodeHttpEndpoint } from "@copilotkit/runtime";
