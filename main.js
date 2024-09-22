@@ -1,0 +1,69 @@
+// import express from "express";
+// import {
+//   CopilotRuntime,
+//   copilotRuntimeNodeHttpEndpoint,
+//   GroqAdapter,
+// } from "@copilotkit/runtime";
+// import dotenv from "dotenv";
+// import { Groq } from "groq-sdk";
+// const app = express();
+// dotenv.config();
+
+// const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+
+// app.use("/copilotkit", (req, res, next) => {
+//   const serviceAdapter = new GroqAdapter({ groq, model: "" });
+//   const copilotkit = new CopilotRuntime();
+//   const handler = copilotRuntimeNodeHTTEndpoint({
+//     endpoint: "/copilotkit",
+//     copilotkit,
+//     serviceAdapter,
+//   });
+
+//   return handler(req, res, next);
+// }); 
+
+// app.listen(4000, () => {
+//   console.log("Listening at http://localhost:4000/copilotkit");
+// });
+
+import express from "express";
+import cors from "cors"; // Import cors
+import { CopilotRuntime, GroqAdapter, copilotRuntimeNodeHttpEndpoint } from "@copilotkit/runtime";
+import { Groq } from "groq-sdk";
+import dotenv from "dotenv";
+dotenv.config();
+const app = express();
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY});
+
+const copilotKit = new CopilotRuntime();
+
+// Use cors middleware
+app.use(cors({
+  origin: 'http://localhost:5173', // Allow requests from this origin
+}));
+
+// Middleware for parsing JSON bodies
+app.use(express.json());
+
+app.use("/copilotkit", (req, res, next) => {
+  const serviceAdapter = new GroqAdapter({ groq, model: "llama3-8b-8192" });
+  
+  const handler = copilotRuntimeNodeHttpEndpoint({
+    endpoint: "/copilotkit",
+    runtime: copilotKit,
+    serviceAdapter,
+  });
+
+  return handler(req, res, next);
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).send('Something went wrong!');
+});
+
+app.listen(4000, () => {
+  console.log("Listening at http://localhost:4000/copilotkit");
+});
