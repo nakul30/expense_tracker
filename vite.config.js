@@ -7,9 +7,14 @@ export default defineConfig({
   server: {
     proxy: {
       '/copilotkit': {
-        target: 'http://localhost:4000',
+        target: 'https://expense-tracker-copilot-2xn1zbuwj-nakul-gargs-projects-8907fa63.vercel.app',
         changeOrigin: true,
       },
     }
-  }
+  },
+  build: {
+    rollupOptions: {
+      external: ['crypto'],
+    },
+  },
 })
