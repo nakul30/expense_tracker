@@ -38,3 +38,4 @@ app.use((err, req, res, next) => {
 app.listen(4000, () => {
   console.log("Listening at http://localhost:4000/copilotkit");
 });
+ 
